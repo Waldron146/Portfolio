@@ -1,36 +1,29 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('.nav-list a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault(); // Prevent default anchor click behavior
+// Scroll to Top Button
+const scrollBtn = document.getElementById("scrollToTop");
 
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-
-        // Smoothly scroll to the target element
-        targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
-    });
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    scrollBtn.style.display = "block";
+  } else {
+    scrollBtn.style.display = "none";
+  }
 });
 
-// Scroll to top button functionality
-const scrollToTopButton = document.getElementById('scrollToTop');
+scrollBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
-// Show or hide the button based on scroll position
-window.addEventListener('scroll', function () {
-    if (window.scrollY > 300) {
-        scrollToTopButton.style.display = 'block';
-    } else {
-        scrollToTopButton.style.display = 'none';
+// Scroll Animation for Sections
+const sections = document.querySelectorAll('.section');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
     }
-});
+  });
+}, { threshold: 0.2 });
 
-// Smoothly scroll to the top when the button is clicked
-scrollToTopButton.addEventListener('click', function () {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-    });
+sections.forEach(section => {
+  observer.observe(section);
 });
-
